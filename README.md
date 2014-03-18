@@ -18,5 +18,6 @@ mysh/
 参考: <br/>
 [Linux 上实现双向进程间通信管道](http://www.ibm.com/developerworks/cn/linux/l-pipebid/) <br/>
 [用unshare创建轻量级虚拟环境] (http://lidemin.pw/226)     <br/>
+[应用挂载名称空间](http://www.ibm.com/developerworks/cn/linux/l-mount-namespaces.html) <br/>
 
 
