@@ -1,5 +1,5 @@
 目录结构如下：<br/>
-`bash
+<pre>
 work@agent:~$ tree mysh/ 
 
 mysh/
@@ -9,7 +9,7 @@ mysh/
 ├── netunshare
 ├── netunshare.c
 └── README.md
-`
+</pre>
 创建步骤：<br/>
 1， 首先编译netunshare.c，用unshare来创建一个虚拟网络环境 <br/>
 2,  创建管道，跟虚拟环境进行通信  <br/>
