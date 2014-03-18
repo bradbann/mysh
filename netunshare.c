@@ -5,6 +5,7 @@
 #include <string.h>
 #include <errno.h>
 #include <libgen.h>
+#define CLONE_NEWNS 0x00020000
 
 #include <linux/unistd.h>
 
@@ -64,7 +65,7 @@ static void usage(const char *name)
 int main(int argc, char *argv[])
 {	
 	int c;
-	unsigned long flags = CLONE_NEWNET;
+	unsigned long flags = CLONE_NEWNS;
 
 	procname = basename(argv[0]);
        

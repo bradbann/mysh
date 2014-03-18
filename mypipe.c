@@ -4,7 +4,7 @@
 #include <sys/types.h>
 #include <sys/un.h>
 #include <sys/socket.h>
-struct ProcessInfo{
+struct dpipe{
     FILE* stream; ///< Pointer to the duplex pipe stream
     pid_t pid; ///< Process ID of the command
 };
@@ -16,11 +16,11 @@ int dphalfclose(FILE *stream)
     /* Close pipe for writing */
     return shutdown(fileno(stream), SHUT_WR);
 }
-struct ProcessInfo dpopen(char *const command[])
+struct dpipe dpopen(char *const command[])
 {
         int fd[2];
         pid_t pid;
-        struct ProcessInfo pi;
+        struct dpipe pi;
         FILE *stream;
         // 创建管道
         socketpair(AF_UNIX, SOCK_STREAM, 0, fd);
@@ -52,16 +52,18 @@ struct ProcessInfo dpopen(char *const command[])
 
 int main() {
     char *cmd[] = {"/home/work/mysh/netunshare","/bin/bash"};
-    struct ProcessInfo pi = dpopen(cmd);	
+    struct dpipe pi = dpopen(cmd);	
     char buf[10240];
-    char icmd[256];
+    char icmd[256] = "pwd";
     int n;
     printf("child pid : %d\n",pi.pid);
-    fprintf(pi.stream,"pwd");
-    fflush(pi.stream);
-    dphalfclose(pi.stream);
-    n=fscanf(pi.stream,"%s",buf);
-    printf("read : %d == %s\n",n,buf);
-            
+   // while(EOF!=scanf("%s",icmd)) {
+        fprintf(pi.stream,"%s",icmd);
+	fflush(pi.stream);
+	dphalfclose(pi.stream);
+	n=fscanf(pi.stream,"%s",buf);
+	printf("read : num: %d ,data:  %s\n",n,buf);
+        buf[0] = 0;
+   // }
     return 0;
 }
