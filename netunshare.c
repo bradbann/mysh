@@ -65,11 +65,10 @@ static void usage(const char *name)
 int main(int argc, char *argv[])
 {	
 	int c;
+fprintf(stdout,"%s",argv[1]);
 	unsigned long flags = CLONE_NEWNS;
 
 	procname = basename(argv[0]);
-       
-        printf("child %s\n",argv[1]);
 
 	while ((c = getopt(argc, argv, "+muiUnNphI:")) != EOF) {
 		switch (c) {
@@ -86,10 +85,10 @@ int main(int argc, char *argv[])
 		perror("unshare");
 		return 1;
 	} 
-	
 	if (argc) {
+		//execve(argv[0], argv, __environ);
 		execve(argv[0], argv, __environ);
-		perror("execve");
+		perror("execve xxxxx");
 		return 1;
 	}
 

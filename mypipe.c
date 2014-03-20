@@ -35,6 +35,7 @@ struct dpipe dpopen(char *const command[])
             close(fd[1]);
             /* 使用exec执行命令 */
             execvp(command[0],command);
+	    perror("execvp");
         } else {    // 父进程
             // 关闭管道的子进程端
             close(fd[1]);
@@ -54,16 +55,16 @@ int main() {
     char *cmd[] = {"/home/work/mysh/netunshare","/bin/bash"};
     struct dpipe pi = dpopen(cmd);	
     char buf[10240];
-    char icmd[256] = "pwd";
+    char icmd[256] = "ps -ef | grep net | grep -v grep";
     int n;
     printf("child pid : %d\n",pi.pid);
-   // while(EOF!=scanf("%s",icmd)) {
+    //while(EOF!=scanf("%s",icmd)) {
         fprintf(pi.stream,"%s",icmd);
-	fflush(pi.stream);
 	dphalfclose(pi.stream);
-	n=fscanf(pi.stream,"%s",buf);
-	printf("read : num: %d ,data:  %s\n",n,buf);
-        buf[0] = 0;
-   // }
+	while(fgets(buf,100,pi.stream)) {
+		printf("%s",buf);
+	}
+        pi = dpopen(cmd);
+    //}
     return 0;
 }
